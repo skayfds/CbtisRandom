@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <script src="https://giscus.app/client.js"
-        data-repo="skayfds/CbtisRandom"
-        data-repo-id="R_kgDONDzx6w"
-        data-category="General"
-        data-category-id="DIC_kwDONDzx684CjlCp"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="es"
-        crossorigin="anonymous"
-        async>
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cbtisRandom</title>
@@ -27,10 +12,11 @@
             background-color: #f4f4f4;
         }
         header {
-            background: #333;
+            background: #24292e;
             color: #fff;
             padding: 10px 0;
             text-align: center;
+            border-bottom: 2px solid #e1e4e8;
         }
         nav {
             margin: 20px 0;
@@ -42,12 +28,15 @@
         }
         section {
             background: #fff;
-            border: 1px solid #ccc;
+            border: 1px solid #e1e4e8;
             margin-bottom: 20px;
             padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         h2 {
             margin-top: 0;
+            color: #333;
         }
         .images {
             display: flex;
@@ -56,6 +45,42 @@
         .images img {
             width: 200px;
             margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        /* Estilo para Commento */
+        .commento {
+            background: #f9f9f9;
+            border: 1px solid #e1e4e8;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .commento h3 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            color: #333;
+        }
+        .commento textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        .commento button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .commento button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -80,6 +105,12 @@
         <img src="hq720.jpg" alt="Meme 1">
         <img src="dancing-steve.gif" alt="Meme 2">
     </div>
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento-memes"></div>
+    </div>
 </section>
 
 <section id="confesiones">
@@ -87,6 +118,12 @@
     <div class="images">
         <img src="rc.gif" alt="Confesión 1">
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/confesion2.jpg" alt="Confesión 2">
+    </div>
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento-confesiones"></div>
     </div>
 </section>
 
@@ -96,6 +133,12 @@
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/quemado1.jpg" alt="Quemado 1">
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/quemado2.jpg" alt="Quemado 2">
     </div>
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento-quemados"></div>
+    </div>
 </section>
 
 <section id="crushes">
@@ -103,6 +146,12 @@
     <div class="images">
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/crush1.jpg" alt="Crush 1">
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/crush2.jpg" alt="Crush 2">
+    </div>
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento-crushes"></div>
     </div>
 </section>
 
@@ -112,6 +161,12 @@
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/secreto1.jpg" alt="Secreto 1">
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/secreto2.jpg" alt="Secreto 2">
     </div>
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento-secretos"></div>
+    </div>
 </section>
 
 <section id="decadencia">
@@ -120,19 +175,22 @@
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/decadencia1.jpg" alt="Decadencia 1">
         <img src="https://raw.githubusercontent.com/skayfds/CbtisRandom/main/path/a/decadencia2.jpg" alt="Decadencia 2">
     </div>
-    <giscus
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento-decadencia"></div>
+    </div>
+</section>
 
-    data-repo="skayfds/CbtisRandom"
-    data-repo-id="R_kgDONDzx6w"
-    data-category="General"
-    data-category-id="DIC_kwDONDzx684CjlCp"
-    data-mapping="title"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-theme="light"
-    data-lang="es"
-/>
+<section id="comentarios">
+    <h2>Comentarios Generales</h2>
+    <div class="commento">
+        <h3>Comentarios</h3>
+        <textarea placeholder="Escribe tu comentario..."></textarea>
+        <button>Enviar comentario</button>
+        <div id="commento"></div>
+    </div>
 </section>
 
 <footer id="contacto">
@@ -140,8 +198,6 @@
     <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
 </footer>
 
-<script src="https://giscus.app/client.js"
-        async
-        crossorigin="anonymous"></script>
+<script defer src="https://cdn.commento.io/js/commento.js"></script>
 </body>
 </html>
