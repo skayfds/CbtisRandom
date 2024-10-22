@@ -66,7 +66,7 @@
         <img src="dancing-steve.gif" alt="Meme 2">
         <!-- Agrega más imágenes aquí -->
     </div>
-    <div id="commento-memes" class="commento"></div>
+    <div id="disqus-memes" class="disqus"></div>
 </section>
 
 <section id="confesiones">
@@ -76,7 +76,7 @@
         <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion2.jpg" alt="Confesión 2">
         <!-- Agrega más imágenes aquí -->
     </div>
-    <div id="commento-confesiones" class="commento"></div>
+    <div id="disqus-confesiones" class="disqus"></div>
 </section>
 
 <section id="quemados">
@@ -86,7 +86,7 @@
         <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado2.jpg" alt="Quemado 2">
         <!-- Agrega más imágenes aquí -->
     </div>
-    <div id="commento-quemados" class="commento"></div>
+    <div id="disqus-quemados" class="disqus"></div>
 </section>
 
 <section id="crushes">
@@ -96,7 +96,7 @@
         <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush2.jpg" alt="Crush 2">
         <!-- Agrega más imágenes aquí -->
     </div>
-    <div id="commento-crushes" class="commento"></div>
+    <div id="disqus-crushes" class="disqus"></div>
 </section>
 
 <section id="secretos">
@@ -106,7 +106,7 @@
         <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto2.jpg" alt="Secreto 2">
         <!-- Agrega más imágenes aquí -->
     </div>
-    <div id="commento-secretos" class="commento"></div>
+    <div id="disqus-secretos" class="disqus"></div>
 </section>
 
 <section id="decadencia">
@@ -115,13 +115,27 @@
         <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia1.jpg" alt="Decadencia 1">
         <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia2.jpg" alt="Decadencia 2">
     </div>
-  
 </section>
+
 <section id="comentarios">
-<h2>comentarios<h2>
-    <script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>
+    <h2>Comentarios</h2>
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = window.location.href;  // Replace with your page's canonical URL variable
+            this.page.identifier = 'unique-identifier'; // Replace with your page's unique identifier variable
+        };
+        
+        (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://https-skayfds-github-io-cbtisrandom/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>
+
 <footer id="contacto">
     <h2>Contacto</h2>
     <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
