@@ -3,126 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cbtisRandom - Foro</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>cbtisRandom</title>
     <style>
         body {
-            font-family: 'Verdana', sans-serif;
-            background-color: #e6e6e6;
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            color: #111;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
         header {
-            background-color: #3b4045;
+            background: #333;
             color: #fff;
             padding: 10px 0;
             text-align: center;
-            border-bottom: 1px solid #666;
         }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        nav {
+            margin: 20px 0;
         }
-        nav ul li {
-            display: inline;
+        nav a {
             margin: 0 15px;
-        }
-        nav ul li a {
             color: #fff;
             text-decoration: none;
         }
-        .container {
-            max-width: 1200px;
-            margin: 15px auto;
-            padding: 15px;
+        section {
             background: #fff;
             border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        h1 {
-            font-size: 2em;
-            margin: 0;
+            margin-bottom: 20px;
+            padding: 15px;
         }
         h2 {
-            font-size: 1.5em;
-            color: #333;
+            margin-top: 0;
         }
-        .secciones {
+        .images {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-wrap: wrap;
         }
-        .seccion {
-            background: #f5f5f5;
-            border: 1px solid #bbb;
-            border-radius: 5px;
-            padding: 10px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .seccion h3 {
-            color: #444;
-            margin: 0;
-        }
-        .imagen-seccion {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 10px 0;
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.8em;
-            color: #666;
-            border-top: 1px solid #bbb;
-            padding-top: 10px;
+        .images img {
+            width: 200px;
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>cbtisRandom</h1>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="mailto:tuemail@example.com">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-    <div class="container" id="inicio">
-        <h2>Secciones del Foro</h2>
-        <div class="secciones">
-            <div class="seccion">
-                <h3>Imágenes</h3>
-                <p>Aquí puedes añadir tus imágenes favoritas.</p>
-                <img src="ruta/a/tu/imagen1.jpg" alt="Descripción de la imagen" class="imagen-seccion">
-            </div>
-            <div class="seccion">
-                <h3>Secretos Anónimos</h3>
-                <p>Comparte tus secretos aquí.</p>
-                <img src="ruta/a/tu/imagen2.jpg" alt="Descripción de la imagen" class="imagen-seccion">
-            </div>
-            <div class="seccion">
-                <h3>Decadencia</h3>
-                <p>Hablemos sobre lo que se está perdiendo.</p>
-                <img src="ruta/a/tu/imagen3.jpg" alt="Descripción de la imagen" class="imagen-seccion">
-            </div>
-            <div class="seccion">
-                <h3>Memes</h3>
-                <p>Comparte tus memes favoritos.</p>
-                <img src="ruta/a/tu/imagen4.jpg" alt="Descripción de la imagen" class="imagen-seccion">
-            </div>
-            <div class="seccion">
-                <h3>Random</h3>
-                <p>Hablemos de lo que se nos ocurra.</p>
-                <img src="ruta/a/tu/imagen5.jpg" alt="Descripción de la imagen" class="imagen-seccion">
-            </div>
-        </div>
+
+<header>
+    <h1>cbtisRandom</h1>
+    <nav>
+        <a href="#memes">Memes</a>
+        <a href="#confesiones">Confesiones</a>
+        <a href="#quemados">Quemados</a>
+        <a href="#crushes">Crushes</a>
+        <a href="#secretos">Secretos Anónimos</a>
+        <a href="#decadencia">Decadencia</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+</header>
+
+<section id="memes">
+    <h2>Memes</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/meme1.jpg" alt="Meme 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/meme2.jpg" alt="Meme 2">
+        <!-- Agrega más imágenes aquí -->
     </div>
-    <footer>
-        <p>&copy; 2024 cbtisRandom. Todos los derechos reservados.</p>
-    </footer>
+</section>
+
+<section id="confesiones">
+    <h2>Confesiones</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion1.jpg" alt="Confesión 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion2.jpg" alt="Confesión 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+</section>
+
+<section id="quemados">
+    <h2>Quemados</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado1.jpg" alt="Quemado 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado2.jpg" alt="Quemado 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+</section>
+
+<section id="crushes">
+    <h2>Crushes</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush1.jpg" alt="Crush 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush2.jpg" alt="Crush 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+</section>
+
+<section id="secretos">
+    <h2>Secretos Anónimos</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto1.jpg" alt="Secreto 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto2.jpg" alt="Secreto 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+</section>
+
+<section id="decadencia">
+    <h2>Decadencia</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia1.jpg" alt="Decadencia 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia2.jpg" alt="Decadencia 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+</section>
+
+<footer id="contacto">
+    <h2>Contacto</h2>
+    <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
+</footer>
+
 </body>
 </html>
