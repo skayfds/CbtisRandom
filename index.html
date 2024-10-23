@@ -19,7 +19,7 @@
             text-align: center;
         }
         header h1 {
-            font-family: 'Courier New', Courier, monospace; /* Mejor font para el título */
+            font-family: 'Courier New', Courier, monospace;
         }
         nav {
             margin: 20px 0;
@@ -89,7 +89,7 @@
     <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
     <input type="file" id="uploadFile">
     <button id="submitPost">Publicar</button>
-    <div id="publishedPosts"></div> <!-- Sección para mostrar publicaciones -->
+    <div id="publishedPosts"></div>
 </section>
 
 <!-- Secciones existentes -->
@@ -162,20 +162,16 @@
         if (file) {
             const { data, error } = await supabase.storage.from('uploads').upload(file.name, file);
             if (error) {
-                console.error(error);
+                console.error('Error al subir el archivo:', error);
             } else {
-                const { publicURL, error: urlError } = supabase.storage.from('uploads').getPublicUrl(file.name);
-                if (urlError) {
-                    console.error(urlError);
-                } else {
-                    fileUrl = publicURL; // Asignar la URL pública
-                }
+                const { publicURL } = supabase.storage.from('uploads').getPublicUrl(file.name);
+                fileUrl = publicURL; // Usamos la URL pública del archivo
             }
         }
 
         const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
         if (error) {
-            console.error(error);
+            console.error('Error al insertar el post:', error);
         } else {
             document.getElementById('postContent').value = '';
             fileInput.value = '';
@@ -186,7 +182,7 @@
     async function loadPosts() {
         const { data, error } = await supabase.from('posts').select('*');
         if (error) {
-            console.error(error);
+            console.error('Error al cargar publicaciones:', error);
         } else {
             const postsContainer = document.getElementById('publishedPosts');
             postsContainer.innerHTML = '';
