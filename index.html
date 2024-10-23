@@ -14,7 +14,7 @@
         }
         header {
             background: #333;
-            color: #00ff00;
+            color: #00ff00; /* Verde */
             padding: 10px 0;
             text-align: center;
         }
@@ -38,14 +38,6 @@
         h2 {
             margin-top: 0;
             color: #00ff00;
-        }
-        .images {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .images img {
-            width: 200px;
-            margin: 5px;
         }
         textarea {
             width: 100%;
@@ -92,15 +84,11 @@
     <div id="publishedPosts"></div>
 </section>
 
-<footer id="contacto">
-    <h2>Contacto</h2>
-    <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
-</footer>
-
 <script src="https://cdn.supabase.io/js/supabase.js"></script>
 <script>
+    // Inicializa Supabase
     const supabaseUrl = 'https://ookouxhrqfsuuvdxcaxz.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';  // Reemplaza esto con tu clave
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('submitPost').onclick = async () => {
@@ -110,17 +98,19 @@
 
         let fileUrl = '';
         if (file) {
-            const { data, error } = await supabase.storage.from('uploads').upload(file.name, file);
-            if (error) {
-                console.error('Error al subir archivo:', error);
-            } else {
-                fileUrl = data.Key; // Ajusta según tu estructura de almacenamiento
+            const { data, error: uploadError } = await supabase.storage.from('uploads').upload(file.name, file);
+            if (uploadError) {
+                console.error('Error al subir el archivo:', uploadError);
+                alert('Error al subir el archivo: ' + uploadError.message);
+                return;
             }
+            fileUrl = `https://ookouxhrqfsuuvdxcaxz.supabase.co/storage/v1/object/public/uploads/${file.name}`;
         }
 
-        const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
-        if (error) {
-            console.error('Error al insertar publicación:', error);
+        const { data, error: insertError } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
+        if (insertError) {
+            console.error('Error al insertar el post:', insertError);
+            alert('Error al publicar: ' + insertError.message);
         } else {
             document.getElementById('postContent').value = '';
             fileInput.value = '';
