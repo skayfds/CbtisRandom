@@ -92,29 +92,35 @@
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('submitPost').onclick = async () => {
-        const postContent = document.getElementById('postContent').value;
-        const fileInput = document.getElementById('uploadFile');
-        const file = fileInput.files[0];
+        try {
+            const postContent = document.getElementById('postContent').value;
+            const fileInput = document.getElementById('uploadFile');
+            const file = fileInput.files[0];
 
-        let fileUrl = '';
-        if (file) {
-            const { data, error: uploadError } = await supabase.storage.from('uploads').upload(file.name, file);
-            if (uploadError) {
-                console.error('Error al subir el archivo:', uploadError);
-                alert('Error al subir el archivo: ' + uploadError.message);
+            let fileUrl = '';
+            if (file) {
+                const { data, error: uploadError } = await supabase.storage.from('uploads').upload(file.name, file);
+                if (uploadError) {
+                    console.error('Error al subir el archivo:', uploadError);
+                    alert('Error al subir el archivo: ' + uploadError.message);
+                    return;
+                }
+                fileUrl = `https://ookouxhrqfsuuvdxcaxz.supabase.co/storage/v1/object/public/uploads/${file.name}`;
+            }
+
+            const { data: insertData, error: insertError } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
+            if (insertError) {
+                console.error('Error al insertar el post:', insertError);
+                alert('Error al publicar: ' + insertError.message);
                 return;
             }
-            fileUrl = `https://ookouxhrqfsuuvdxcaxz.supabase.co/storage/v1/object/public/uploads/${file.name}`;
-        }
 
-        const { data, error: insertError } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
-        if (insertError) {
-            console.error('Error al insertar el post:', insertError);
-            alert('Error al publicar: ' + insertError.message);
-        } else {
             document.getElementById('postContent').value = '';
             fileInput.value = '';
             loadPosts();
+        } catch (error) {
+            console.error('Error inesperado:', error);
+            alert('Error inesperado: ' + error.message);
         }
     };
 
