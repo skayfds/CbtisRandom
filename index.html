@@ -79,7 +79,7 @@
         <a href="#crushes">Crushes</a>
         <a href="#secretos">Secretos Anónimos</a>
         <a href="#decadencia">Decadencia</a>
-        <a href="#publicaciones">Publicaciones</a> <!-- Nueva sección -->
+        <a href="#publicaciones">Publicaciones</a>
         <a href="#contacto">Contacto</a>
     </nav>
 </header>
@@ -92,11 +92,52 @@
     <div id="publishedPosts"></div> <!-- Sección para mostrar publicaciones -->
 </section>
 
+<!-- Secciones existentes -->
 <section id="memes">
     <h2>Memes</h2>
     <div class="images">
         <img src="hq720.jpg" alt="Meme 1">
         <img src="dancing-steve.gif" alt="Meme 2">
+    </div>
+</section>
+
+<section id="confesiones">
+    <h2>Confesiones</h2>
+    <div class="images">
+        <img src="rc.gif" alt="Confesión 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion2.jpg" alt="Confesión 2">
+    </div>
+</section>
+
+<section id="quemados">
+    <h2>Quemados</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado1.jpg" alt="Quemado 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado2.jpg" alt="Quemado 2">
+    </div>
+</section>
+
+<section id="crushes">
+    <h2>Crushes</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush1.jpg" alt="Crush 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush2.jpg" alt="Crush 2">
+    </div>
+</section>
+
+<section id="secretos">
+    <h2>Secretos Anónimos</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto1.jpg" alt="Secreto 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto2.jpg" alt="Secreto 2">
+    </div>
+</section>
+
+<section id="decadencia">
+    <h2>Decadencia</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia1.jpg" alt="Decadencia 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia2.jpg" alt="Decadencia 2">
     </div>
 </section>
 
@@ -107,9 +148,9 @@
 
 <script src="https://cdn.supabase.io/js/supabase.js"></script>
 <script>
-    // Inicializa Supabase con la service_role
+    // Inicializa Supabase
     const supabaseUrl = 'https://ookouxhrqfsuuvdxcaxz.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTY1MzUxOSwiZXhwIjoyMDQ1MjI5NTE5fQ.cf12CJyas1r4EhNq6tdYcqmJFZVLw3ngFDgX14biHec'; // Reemplaza esto con tu service_role API Key
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('submitPost').onclick = async () => {
@@ -123,7 +164,12 @@
             if (error) {
                 console.error(error);
             } else {
-                fileUrl = data.Key; // Ajusta según tu estructura de almacenamiento
+                const { publicURL, error: urlError } = supabase.storage.from('uploads').getPublicUrl(file.name);
+                if (urlError) {
+                    console.error(urlError);
+                } else {
+                    fileUrl = publicURL; // Asignar la URL pública
+                }
             }
         }
 
