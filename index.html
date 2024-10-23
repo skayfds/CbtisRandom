@@ -14,19 +14,19 @@
         }
         header {
             background: #333;
-            color: #00ff00; /* Verde */
+            color: #00ff00;
             padding: 10px 0;
             text-align: center;
         }
         header h1 {
-            font-family: 'Courier New', Courier, monospace; /* Mejor font para el título */
+            font-family: 'Courier New', Courier, monospace;
         }
         nav {
             margin: 20px 0;
         }
         nav a {
             margin: 0 15px;
-            color: #00ff00; /* Verde */
+            color: #00ff00;
             text-decoration: none;
         }
         section {
@@ -37,7 +37,7 @@
         }
         h2 {
             margin-top: 0;
-            color: #00ff00; /* Verde */
+            color: #00ff00;
         }
         .images {
             display: flex;
@@ -55,7 +55,7 @@
             margin-top: 10px;
         }
         button {
-            background-color: #00ff00; /* Verde */
+            background-color: #00ff00;
             color: #222;
             padding: 10px 15px;
             border: none;
@@ -64,7 +64,7 @@
             margin-top: 10px;
         }
         button:hover {
-            background-color: #00cc00; /* Verde más oscuro */
+            background-color: #00cc00;
         }
     </style>
 </head>
@@ -89,56 +89,7 @@
     <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
     <input type="file" id="uploadFile">
     <button id="submitPost">Publicar</button>
-    <div id="publishedPosts"></div> <!-- Sección para mostrar publicaciones -->
-</section>
-
-<!-- Secciones existentes -->
-<section id="memes">
-    <h2>Memes</h2>
-    <div class="images">
-        <img src="hq720.jpg" alt="Meme 1">
-        <img src="dancing-steve.gif" alt="Meme 2">
-    </div>
-</section>
-
-<section id="confesiones">
-    <h2>Confesiones</h2>
-    <div class="images">
-        <img src="rc.gif" alt="Confesión 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion2.jpg" alt="Confesión 2">
-    </div>
-</section>
-
-<section id="quemados">
-    <h2>Quemados</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado1.jpg" alt="Quemado 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado2.jpg" alt="Quemado 2">
-    </div>
-</section>
-
-<section id="crushes">
-    <h2>Crushes</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush1.jpg" alt="Crush 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush2.jpg" alt="Crush 2">
-    </div>
-</section>
-
-<section id="secretos">
-    <h2>Secretos Anónimos</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto1.jpg" alt="Secreto 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto2.jpg" alt="Secreto 2">
-    </div>
-</section>
-
-<section id="decadencia">
-    <h2>Decadencia</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia1.jpg" alt="Decadencia 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia2.jpg" alt="Decadencia 2">
-    </div>
+    <div id="publishedPosts"></div>
 </section>
 
 <footer id="contacto">
@@ -148,9 +99,8 @@
 
 <script src="https://cdn.supabase.io/js/supabase.js"></script>
 <script>
-    // Inicializa Supabase
     const supabaseUrl = 'https://ookouxhrqfsuuvdxcaxz.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';  // Reemplaza esto con tu clave
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('submitPost').onclick = async () => {
@@ -162,20 +112,15 @@
         if (file) {
             const { data, error } = await supabase.storage.from('uploads').upload(file.name, file);
             if (error) {
-                console.error(error);
+                console.error('Error al subir archivo:', error);
             } else {
-                const { publicURL, error: urlError } = supabase.storage.from('uploads').getPublicUrl(file.name);
-                if (urlError) {
-                    console.error(urlError);
-                } else {
-                    fileUrl = publicURL; // Asignar la URL pública
-                }
+                fileUrl = data.Key; // Ajusta según tu estructura de almacenamiento
             }
         }
 
         const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
         if (error) {
-            console.error(error);
+            console.error('Error al insertar publicación:', error);
         } else {
             document.getElementById('postContent').value = '';
             fileInput.value = '';
@@ -186,7 +131,7 @@
     async function loadPosts() {
         const { data, error } = await supabase.from('posts').select('*');
         if (error) {
-            console.error(error);
+            console.error('Error al cargar publicaciones:', error);
         } else {
             const postsContainer = document.getElementById('publishedPosts');
             postsContainer.innerHTML = '';
