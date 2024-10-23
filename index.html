@@ -4,173 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cbtisRandom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Fuente Roboto -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #222;
-            color: #eee;
+            background-color: #222; /* Fondo oscuro */
+            color: #eee; /* Color de texto claro */
         }
         header {
-            background: #333;
-            color: #00ff00;
+            background: #333; /* Fondo del encabezado */
+            color: #00ff00; /* Color del texto del encabezado */
             padding: 10px 0;
             text-align: center;
         }
-        header h1 {
-            font-family: 'Courier New', Courier, monospace;
+        h1 {
+            font-family: 'Roboto', sans-serif; /* Fuente para el título */
+            font-size: 2.5em; /* Tamaño del título */
+            margin: 0; /* Sin margen */
         }
         nav {
             margin: 20px 0;
         }
         nav a {
             margin: 0 15px;
-            color: #00ff00;
+            color: #00ff00; /* Color de los enlaces */
             text-decoration: none;
         }
+        nav a:hover {
+            text-decoration: underline; /* Subrayar al pasar el mouse */
+        }
         section {
-            background: #444;
-            border: 1px solid #ccc;
+            background: #444; /* Fondo de las secciones */
+            border: 1px solid #ccc; /* Borde sutil */
+            border-radius: 5px; /* Bordes redondeados */
             margin-bottom: 20px;
             padding: 15px;
         }
         h2 {
             margin-top: 0;
-            color: #00ff00;
+            color: #00ff00; /* Color de los encabezados */
         }
-        textarea, input[type="text"], input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .images {
+            display: flex;
+            flex-wrap: wrap;
         }
-        button {
-            background-color: #00ff00;
-            color: #222;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
+        .images img {
+            width: 200px;
+            margin: 5px;
+            border-radius: 5px; /* Bordes redondeados para las imágenes */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Sombra sutil para las imágenes */
         }
-        button:hover {
-            background-color: #00cc00;
-        }
-        .post {
-            margin-top: 15px;
-            padding: 10px;
-            background: #555;
-            border-radius: 5px;
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            border-top: 1px solid #ccc; /* Línea superior */
         }
     </style>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
 
 <header>
     <h1>cbtisRandom</h1>
     <nav>
-        <a href="#publicaciones">Publicaciones</a>
+        <a href="#memes">Memes</a>
+        <a href="#confesiones">Confesiones</a>
+        <a href="#quemados">Quemados</a>
+        <a href="#crushes">Crushes</a>
+        <a href="#secretos">Secretos Anónimos</a>
+        <a href="#decadencia">Decadencia</a>
         <a href="#contacto">Contacto</a>
     </nav>
 </header>
 
-<section id="publicaciones">
-    <h2>Publicaciones</h2>
-    <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
-    <input type="file" id="imageFile" accept="image/*">
-    <button id="submitPost">Publicar</button>
-    <div id="publishedPosts"></div>
+<section id="memes">
+    <h2>Memes</h2>
+    <div class="images">
+        <img src="hq720.jpg" alt="Meme 1">
+        <img src="dancing-steve.gif" alt="Meme 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+    <div id="commento-memes" class="commento"></div>
 </section>
 
+<section id="confesiones">
+    <h2>Confesiones</h2>
+    <div class="images">
+        <img src="rc.gif" alt="Confesión 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion2.jpg" alt="Confesión 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+    <div id="commento-confesiones" class="commento"></div>
+</section>
+
+<section id="quemados">
+    <h2>Quemados</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado1.jpg" alt="Quemado 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado2.jpg" alt=" Quemado 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+    <div id="commento-quemados" class="commento"></div>
+</section>
+
+<section id="crushes">
+    <h2>Crushes</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush1.jpg" alt="Crush 1">
+        <img src="https:// raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush2.jpg" alt="Crush 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+    <div id="commento-crushes" class="commento"></div>
+</section>
+
+<section id="secretos">
+    <h2>Secretos Anónimos</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secret1.jpg" alt="Secreto 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secret2.jpg" alt="Secreto 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+    <div id="commento-secretos" class="commento"></div>
+</section>
+
+<section id="decadencia">
+    <h2>Decadencia</h2>
+    <div class="images">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia1.jpg" alt="Decadencia 1">
+        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia2.jpg" alt="Decadencia 2">
+        <!-- Agrega más imágenes aquí -->
+    </div>
+    <div id="commento-decadencia" class="commento"></div>
+</section>
+
+</section>
+<section id="comentarios">
+<h2>comentarios<h2>
+    <script defer src="https://cdn.commento.io/js/commento.js"></script>
+<div id="commento"></div>
+</section>
 <footer id="contacto">
     <h2>Contacto</h2>
     <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
 </footer>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyBrSZx1hPnG-HwI6GlcXAaNX-V-6y50AmU",
-        authDomain: "cbt43-18805.firebaseapp.com",
-        projectId: "cbt43-18805",
-        storageBucket: "cbt43-18805.appspot.com",
-        messagingSenderId: "275982715863",
-        appId: "1:275982715863:web:fa5c2fa09dc6e7631fd992",
-        measurementId: "G-3QL5CEXGNV"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    document.getElementById('submitPost').onclick = async () => {
-        const postContent = document.getElementById('postContent').value;
-        const imageFile = document.getElementById('imageFile').files[0];
-
-        if (!postContent.trim()) {
-            alert('El contenido del post no puede estar vacío.');
-            return;
-        }
-
-        let imageUrl = '';
-        if (imageFile) {
-            const formData = new FormData();
-            formData.append('image', imageFile);
-
-            const response = await fetch('https://api.imgur.com/3/image', {
-                method: 'POST',
-                headers : {
-                    'Authorization': 'Client-ID 745c331b36e3226', // Tu Client ID de Imgur
-                },
-                body: formData
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                imageUrl = data.data.link; // Obtén la URL de la imagen subida
-            } else {
-                alert('Error al subir la imagen a Imgur: ' + data.message);
-                return;
-            }
-        }
-
-        // Guarda el post en Firestore
-        await db.collection('posts').add({
-            content: postContent,
-            imageUrl: imageUrl,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        // Limpia el formulario
-        document.getElementById('postContent').value = '';
-        document.getElementById('imageFile').value = '';
-        loadPosts(); // Carga las publicaciones después de agregar una nueva
-    };
-
-    // Función para cargar publicaciones
-    const loadPosts = async () => {
-        const postsContainer = document.getElementById('publishedPosts');
-        postsContainer.innerHTML = ''; // Limpia el contenedor
-
-        const snapshot = await db.collection('posts').orderBy('timestamp', 'desc').get();
-        snapshot.forEach(doc => {
-            const post = doc.data();
-            const postElement = document.createElement('div');
-            postElement.classList.add('post');
-            postElement.innerHTML = `
-                <p>${post.content}</p>
-                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Imagen" style="max-width: 100%;">` : ''}
-            `;
-            postsContainer.appendChild(postElement);
-        });
-    };
-
-    // Carga las publicaciones al iniciar
-    loadPosts();
-</script>
 
 </body>
 </html>
