@@ -39,20 +39,19 @@
             margin-top: 0;
             color: #00ff00; /* Verde */
         }
-        .images {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .images img {
-            width: 200px;
-            margin: 5px;
-        }
         textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
             background-color: #00ff00; /* Verde */
@@ -65,6 +64,12 @@
         }
         button:hover {
             background-color: #00cc00; /* Verde más oscuro */
+        }
+        .post {
+            margin-top: 15px;
+            padding: 10px;
+            background: #555;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -87,7 +92,7 @@
 <section id="publicaciones">
     <h2>Publicaciones</h2>
     <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
-    <input type="file" id="uploadFile">
+    <input type="text" id="imageUrl" placeholder="Introduce la URL de la imagen...">
     <button id="submitPost">Publicar</button>
     <div id="publishedPosts"></div>
 </section>
@@ -155,26 +160,20 @@
 
     document.getElementById('submitPost').onclick = async () => {
         const postContent = document.getElementById('postContent').value;
-        const fileInput = document.getElementById('uploadFile');
-        const file = fileInput.files[0];
+        const imageUrl = document.getElementById('imageUrl').value;
 
-        let fileUrl = '';
-        if (file) {
-            const { data, error } = await supabase.storage.from('uploads').upload(file.name, file);
-            if (error) {
-                console.error('Error al subir el archivo:', error);
-            } else {
-                const { publicURL } = supabase.storage.from('uploads').getPublicUrl(file.name);
-                fileUrl = publicURL; // Usamos la URL pública del archivo
-            }
+        if (!postContent.trim()) {
+            alert('El contenido del post no puede estar vacío.');
+            return;
         }
 
-        const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
+        const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: imageUrl }]);
         if (error) {
             console.error('Error al insertar el post:', error);
+            alert('Error al publicar el post. Inténtalo de nuevo.');
         } else {
             document.getElementById('postContent').value = '';
-            fileInput.value = '';
+            document.getElementById('imageUrl').value = '';
             loadPosts();
         }
     };
@@ -188,6 +187,7 @@
             postsContainer.innerHTML = '';
             data.forEach(post => {
                 const postElement = document.createElement('div');
+                postElement.classList.add('post');
                 postElement.innerHTML = `<p>${post.content}</p>${post.image_url ? `<img src="${post.image_url}" width="200" />` : ''}`;
                 postsContainer.appendChild(postElement);
             });
