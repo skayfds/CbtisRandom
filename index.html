@@ -19,14 +19,14 @@
             text-align: center;
         }
         header h1 {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', Courier, monospace; /* Mejor font para el título */
         }
         nav {
             margin: 20px 0;
         }
         nav a {
             margin: 0 15px;
-            color: #00ff00;
+            color: #00ff00; /* Verde */
             text-decoration: none;
         }
         section {
@@ -37,7 +37,15 @@
         }
         h2 {
             margin-top: 0;
-            color: #00ff00;
+            color: #00ff00; /* Verde */
+        }
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .images img {
+            width: 200px;
+            margin: 5px;
         }
         textarea {
             width: 100%;
@@ -47,7 +55,7 @@
             margin-top: 10px;
         }
         button {
-            background-color: #00ff00;
+            background-color: #00ff00; /* Verde */
             color: #222;
             padding: 10px 15px;
             border: none;
@@ -56,7 +64,7 @@
             margin-top: 10px;
         }
         button:hover {
-            background-color: #00cc00;
+            background-color: #00cc00; /* Verde más oscuro */
         }
     </style>
 </head>
@@ -71,7 +79,7 @@
         <a href="#crushes">Crushes</a>
         <a href="#secretos">Secretos Anónimos</a>
         <a href="#decadencia">Decadencia</a>
-        <a href="#publicaciones">Publicaciones</a>
+        <a href="#publicaciones">Publicaciones</a> <!-- Nueva sección -->
         <a href="#contacto">Contacto</a>
     </nav>
 </header>
@@ -81,53 +89,58 @@
     <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
     <input type="file" id="uploadFile">
     <button id="submitPost">Publicar</button>
-    <div id="publishedPosts"></div>
+    <div id="publishedPosts"></div> <!-- Sección para mostrar publicaciones -->
 </section>
+
+<section id="memes">
+    <h2>Memes</h2>
+    <div class="images">
+        <img src="hq720.jpg" alt="Meme 1">
+        <img src="dancing-steve.gif" alt="Meme 2">
+    </div>
+</section>
+
+<footer id="contacto">
+    <h2>Contacto</h2>
+    <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
+</footer>
 
 <script src="https://cdn.supabase.io/js/supabase.js"></script>
 <script>
-    // Inicializa Supabase
+    // Inicializa Supabase con la service_role
     const supabaseUrl = 'https://ookouxhrqfsuuvdxcaxz.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTY1MzUxOSwiZXhwIjoyMDQ1MjI5NTE5fQ.cf12CJyas1r4EhNq6tdYcqmJFZVLw3ngFDgX14biHec'; // Reemplaza esto con tu service_role API Key
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('submitPost').onclick = async () => {
-        try {
-            const postContent = document.getElementById('postContent').value;
-            const fileInput = document.getElementById('uploadFile');
-            const file = fileInput.files[0];
+        const postContent = document.getElementById('postContent').value;
+        const fileInput = document.getElementById('uploadFile');
+        const file = fileInput.files[0];
 
-            let fileUrl = '';
-            if (file) {
-                const { data, error: uploadError } = await supabase.storage.from('uploads').upload(file.name, file);
-                if (uploadError) {
-                    console.error('Error al subir el archivo:', uploadError);
-                    alert('Error al subir el archivo: ' + uploadError.message);
-                    return;
-                }
-                fileUrl = `https://ookouxhrqfsuuvdxcaxz.supabase.co/storage/v1/object/public/uploads/${file.name}`;
+        let fileUrl = '';
+        if (file) {
+            const { data, error } = await supabase.storage.from('uploads').upload(file.name, file);
+            if (error) {
+                console.error(error);
+            } else {
+                fileUrl = data.Key; // Ajusta según tu estructura de almacenamiento
             }
+        }
 
-            const { data: insertData, error: insertError } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
-            if (insertError) {
-                console.error('Error al insertar el post:', insertError);
-                alert('Error al publicar: ' + insertError.message);
-                return;
-            }
-
+        const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
+        if (error) {
+            console.error(error);
+        } else {
             document.getElementById('postContent').value = '';
             fileInput.value = '';
             loadPosts();
-        } catch (error) {
-            console.error('Error inesperado:', error);
-            alert('Error inesperado: ' + error.message);
         }
     };
 
     async function loadPosts() {
         const { data, error } = await supabase.from('posts').select('*');
         if (error) {
-            console.error('Error al cargar publicaciones:', error);
+            console.error(error);
         } else {
             const postsContainer = document.getElementById('publishedPosts');
             postsContainer.innerHTML = '';
