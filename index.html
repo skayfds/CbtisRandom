@@ -14,7 +14,7 @@
         }
         header {
             background: #333;
-            color: #00ff00; /* Verde */
+            color: #00ff00;
             padding: 10px 0;
             text-align: center;
         }
@@ -26,7 +26,7 @@
         }
         nav a {
             margin: 0 15px;
-            color: #00ff00; /* Verde */
+            color: #00ff00;
             text-decoration: none;
         }
         section {
@@ -37,16 +37,9 @@
         }
         h2 {
             margin-top: 0;
-            color: #00ff00; /* Verde */
+            color: #00ff00;
         }
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        input[type="text"] {
+        textarea, input[type="text"], input[type="file"] {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -54,7 +47,7 @@
             border-radius: 5px;
         }
         button {
-            background-color: #00ff00; /* Verde */
+            background-color: #00ff00;
             color: #222;
             padding: 10px 15px;
             border: none;
@@ -63,7 +56,7 @@
             margin-top: 10px;
         }
         button:hover {
-            background-color: #00cc00; /* Verde más oscuro */
+            background-color: #00cc00;
         }
         .post {
             margin-top: 15px;
@@ -72,18 +65,14 @@
             border-radius: 5px;
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
 
 <header>
     <h1>cbtisRandom</h1>
     <nav>
-        <a href="#memes">Memes</a>
-        <a href="#confesiones">Confesiones</a>
-        <a href="#quemados">Quemados</a>
-        <a href="#crushes">Crushes</a>
-        <a href="#secretos">Secretos Anónimos</a>
-        <a href="#decadencia">Decadencia</a>
         <a href="#publicaciones">Publicaciones</a>
         <a href="#contacto">Contacto</a>
     </nav>
@@ -92,58 +81,9 @@
 <section id="publicaciones">
     <h2>Publicaciones</h2>
     <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
-    <input type="text" id="imageUrl" placeholder="Introduce la URL de la imagen...">
+    <input type="file" id="imageFile" accept="image/*">
     <button id="submitPost">Publicar</button>
     <div id="publishedPosts"></div>
-</section>
-
-<!-- Secciones existentes -->
-<section id="memes">
-    <h2>Memes</h2>
-    <div class="images">
-        <img src="hq720.jpg" alt="Meme 1">
-        <img src="dancing-steve.gif" alt="Meme 2">
-    </div>
-</section>
-
-<section id="confesiones">
-    <h2>Confesiones</h2>
-    <div class="images">
-        <img src="rc.gif" alt="Confesión 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/confesion2.jpg" alt="Confesión 2">
-    </div>
-</section>
-
-<section id="quemados">
-    <h2>Quemados</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado1.jpg" alt="Quemado 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/quemado2.jpg" alt="Quemado 2">
-    </div>
-</section>
-
-<section id="crushes">
-    <h2>Crushes</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush1.jpg" alt="Crush 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/crush2.jpg" alt="Crush 2">
-    </div>
-</section>
-
-<section id="secretos">
-    <h2>Secretos Anónimos</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto1.jpg" alt="Secreto 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/secreto2.jpg" alt="Secreto 2">
-    </div>
-</section>
-
-<section id="decadencia">
-    <h2>Decadencia</h2>
-    <div class="images">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia1.jpg" alt="Decadencia 1">
-        <img src="https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/path/a/decadencia2.jpg" alt="Decadencia 2">
-    </div>
 </section>
 
 <footer id="contacto">
@@ -151,50 +91,85 @@
     <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
 </footer>
 
-<script src="https://cdn.supabase.io/js/supabase.js"></script>
 <script>
-    // Inicializa Supabase
-    const supabaseUrl = 'https://ookouxhrqfsuuvdxcaxz.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9va291eGhycWZzdXV2ZHhjYXh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NTM1MTksImV4cCI6MjA0NTIyOTUxOX0.g0HKTw_OnpdLumD6UsObwWVQMPuw3oH9Ug2NCPtCIi8';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const firebaseConfig = {
+        apiKey: "AIzaSyBrSZx1hPnG-HwI6GlcXAaNX-V-6y50AmU",
+        authDomain: "cbt43-18805.firebaseapp.com",
+        projectId: "cbt43-18805",
+        storageBucket: "cbt43-18805.appspot.com",
+        messagingSenderId: "275982715863",
+        appId: "1:275982715863:web:fa5c2fa09dc6e7631fd992",
+        measurementId: "G-3QL5CEXGNV"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
     document.getElementById('submitPost').onclick = async () => {
         const postContent = document.getElementById('postContent').value;
-        const imageUrl = document.getElementById('imageUrl').value;
+        const imageFile = document.getElementById('imageFile').files[0];
 
         if (!postContent.trim()) {
             alert('El contenido del post no puede estar vacío.');
             return;
         }
 
-        const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: imageUrl }]);
-        if (error) {
-            console.error('Error al insertar el post:', error);
-            alert('Error al publicar el post. Inténtalo de nuevo.');
-        } else {
-            document.getElementById('postContent').value = '';
-            document.getElementById('imageUrl').value = '';
-            loadPosts();
+        let imageUrl = '';
+        if (imageFile) {
+            const formData = new FormData();
+            formData.append('image', imageFile);
+
+            const response = await fetch('https://api.imgur.com/3/image', {
+                method: 'POST',
+                headers : {
+                    'Authorization': 'Client-ID 745c331b36e3226', // Tu Client ID de Imgur
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                imageUrl = data.data.link; // Obtén la URL de la imagen subida
+            } else {
+                alert('Error al subir la imagen a Imgur: ' + data.message);
+                return;
+            }
         }
+
+        // Guarda el post en Firestore
+        await db.collection('posts').add({
+            content: postContent,
+            imageUrl: imageUrl,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // Limpia el formulario
+        document.getElementById('postContent').value = '';
+        document.getElementById('imageFile').value = '';
+        loadPosts(); // Carga las publicaciones después de agregar una nueva
     };
 
-    async function loadPosts() {
-        const { data, error } = await supabase.from('posts').select('*');
-        if (error) {
-            console.error('Error al cargar publicaciones:', error);
-        } else {
-            const postsContainer = document.getElementById('publishedPosts');
-            postsContainer.innerHTML = '';
-            data.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.classList.add('post');
-                postElement.innerHTML = `<p>${post.content}</p>${post.image_url ? `<img src="${post.image_url}" width="200" />` : ''}`;
-                postsContainer.appendChild(postElement);
-            });
-        }
-    }
+    // Función para cargar publicaciones
+    const loadPosts = async () => {
+        const postsContainer = document.getElementById('publishedPosts');
+        postsContainer.innerHTML = ''; // Limpia el contenedor
 
-    loadPosts(); // Cargar publicaciones al inicio
+        const snapshot = await db.collection('posts').orderBy('timestamp', 'desc').get();
+        snapshot.forEach(doc => {
+            const post = doc.data();
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+                <p>${post.content}</p>
+                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Imagen" style="max-width: 100%;">` : ''}
+            `;
+            postsContainer.appendChild(postElement);
+        });
+    };
+
+    // Carga las publicaciones al iniciar
+    loadPosts();
 </script>
 
 </body>
