@@ -6,33 +6,38 @@
     <title>cbtisRandom</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #222;
+            color: #eee;
         }
         header {
             background: #333;
-            color: #fff;
+            color: #00ff00; /* Verde */
             padding: 10px 0;
             text-align: center;
+        }
+        header h1 {
+            font-family: 'Courier New', Courier, monospace; /* Mejor font para el título */
         }
         nav {
             margin: 20px 0;
         }
         nav a {
             margin: 0 15px;
-            color: #fff;
+            color: #00ff00; /* Verde */
             text-decoration: none;
         }
         section {
-            background: #fff;
+            background: #444;
             border: 1px solid #ccc;
             margin-bottom: 20px;
             padding: 15px;
         }
         h2 {
             margin-top: 0;
+            color: #00ff00; /* Verde */
         }
         .images {
             display: flex;
@@ -42,51 +47,24 @@
             width: 200px;
             margin: 5px;
         }
-
-        /* Estilos personalizados para Commento */
-        .commento {
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        .commento h3 {
-            color: #333;
-        }
-        .commento .comment {
-            margin: 10px 0;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .commento .comment:last-child {
-            border-bottom: none;
-        }
-        .commento .author {
-            font-weight: bold;
-            color: #007bff;
-        }
-        .commento .date {
-            font-size: 0.9em;
-            color: #888;
-        }
-        .commento textarea {
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-top: 10px;
         }
-        .commento button {
-            background-color: #007bff;
-            color: #fff;
+        button {
+            background-color: #00ff00; /* Verde */
+            color: #222;
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
         }
-        .commento button:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #00cc00; /* Verde más oscuro */
         }
     </style>
 </head>
@@ -101,10 +79,20 @@
         <a href="#crushes">Crushes</a>
         <a href="#secretos">Secretos Anónimos</a>
         <a href="#decadencia">Decadencia</a>
+        <a href="#publicaciones">Publicaciones</a> <!-- Nueva sección -->
         <a href="#contacto">Contacto</a>
     </nav>
 </header>
 
+<section id="publicaciones">
+    <h2>Publicaciones</h2>
+    <textarea id="postContent" placeholder="Escribe tu comentario..."></textarea>
+    <input type="file" id="uploadFile">
+    <button id="submitPost">Publicar</button>
+    <div id="publishedPosts"></div> <!-- Sección para mostrar publicaciones -->
+</section>
+
+<!-- Secciones existentes -->
 <section id="memes">
     <h2>Memes</h2>
     <div class="images">
@@ -158,16 +146,60 @@
     </div>
 </section>
 
-<section id="comentarios">
-    <h2>Comentarios</h2>
-    <script defer src="https://cdn.commento.io/js/commento.js"></script>
-    <div id="commento"></div>
-</section>
-
 <footer id="contacto">
     <h2>Contacto</h2>
     <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
 </footer>
+
+<script src="https://cdn.supabase.io/js/supabase.js"></script>
+<script>
+    // Inicializa Supabase
+    const supabaseUrl = 'TU_SUPABASE_URL';
+    const supabaseKey = 'TU_SUPABASE_ANON_KEY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById('submitPost').onclick = async () => {
+        const postContent = document.getElementById('postContent').value;
+        const fileInput = document.getElementById('uploadFile');
+        const file = fileInput.files[0];
+
+        let fileUrl = '';
+        if (file) {
+            const { data, error } = await supabase.storage.from('uploads').upload(file.name, file);
+            if (error) {
+                console.error(error);
+            } else {
+                fileUrl = data.Key; // Ajusta según tu estructura de almacenamiento
+            }
+        }
+
+        const { data, error } = await supabase.from('posts').insert([{ content: postContent, image_url: fileUrl }]);
+        if (error) {
+            console.error(error);
+        } else {
+            document.getElementById('postContent').value = '';
+            fileInput.value = '';
+            loadPosts();
+        }
+    };
+
+    async function loadPosts() {
+        const { data, error } = await supabase.from('posts').select('*');
+        if (error) {
+            console.error(error);
+        } else {
+            const postsContainer = document.getElementById('publishedPosts');
+            postsContainer.innerHTML = '';
+            data.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.innerHTML = `<p>${post.content}</p>${post.image_url ? `<img src="${post.image_url}" width="200" />` : ''}`;
+                postsContainer.appendChild(postElement);
+            });
+        }
+    }
+
+    loadPosts(); // Cargar publicaciones al inicio
+</script>
 
 </body>
 </html>
