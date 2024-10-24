@@ -64,7 +64,7 @@
         }
     </style>
 </head>
-      <body>
+<body>
 
 <header>
     <h1>cbtisRandom</h1>
@@ -78,20 +78,21 @@
         <a href="#contacto">Contacto</a>
     </nav>
 </header>
+
 <section id="comentarios">
-<h2>Foro-Anonimo<h2>
-    <script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>
+    <h2>Foro-Anónimo</h2>
+    <input type="file" id="imageInput" />
+    <input type="text" id="commentInput" placeholder="Escribe tu comentario" />
+    <button id="submitPost">Publicar</button>
+    <div id="postsContainer"></div>
 </section>
-    
+
 <section id="memes">
     <h2>Memes</h2>
     <div class="imgs">
         <img src="hq720.jpg" alt="Meme 1">
         <img src="dancing-steve.gif" alt="Meme 2">
-    
     </div>
-    <div id="commento-memes" class="commento"></div>
 </section>
 
 <section id="confesiones">
@@ -100,25 +101,22 @@
         <img src="rc.gif" alt="Confesión 1">
         <img src="https://raw.githubusercontent.com//main/path/a/confesion2.jpg" alt="Confesión 2">
     </div>
-    <div id="commento-confesiones" class="commento"></div>
 </section>
 
 <section id="quemados">
     <h2>Quemados</h2>
     <div class="imgs">
         <img src="https://raw.githubusercontent.com//main/path/a/quemado1.jpg" alt="Quemado 1">
-        <img src="https://raw.githubusercontent.com//main/path/a/quemado2.jpg" alt=" Quemado 2">    
+        <img src="https://raw.githubusercontent.com//main/path/a/quemado2.jpg" alt="Quemado 2">    
     </div>
-    <div id="commento-quemados" class="commento"></div>
 </section>
 
 <section id="crushes">
     <h2>Crushes</h2>
     <div class="imgs">
         <img src="https://raw.githubusercontent.com//main/path/a/crush1.jpg" alt="Crush 1">
-        <img src="https:// raw.githubusercontent.com//main/path/a/crush2.jpg" alt="Crush 2">
+        <img src="https://raw.githubusercontent.com//main/path/a/crush2.jpg" alt="Crush 2">
     </div>
-    <div id="commento-crushes" class="commento"></div>
 </section>
 
 <section id="secretos">
@@ -126,9 +124,7 @@
     <div class="imgs">
         <img src="https://raw.githubusercontent.com//main/path/a/secret1.jpg" alt="Secreto 1">
         <img src="https://raw.githubusercontent.com//main/path/a/secret2.jpg" alt="Secreto 2">
-        
     </div>
-    <div id="commento-secretos" class="commento"></div>
 </section>
 
 <section id="decadencia">
@@ -137,14 +133,85 @@
         <img src="https://raw.githubusercontent.com//main/path/a/decadencia1.jpg" alt="Decadencia 1">
         <img src="https://raw.githubusercontent.com//main/path/a/decadencia2.jpg" alt="Decadencia 2">
     </div>
-    <div id="commento-decadencia" class="commento"></div>
 </section>
 
-</section>
 <footer id="contacto">
     <h2>Contacto</h2>
     <p>Puedes enviarnos un mensaje a: contacto@cbtisrandom.com</p>
-   </footer>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBrSZx1hPnG-HwI6GlcXAaNX-V-6y50AmU",
+        authDomain: "cbt43-18805.firebaseapp.com",
+        projectId: "cbt43-18805",
+        storageBucket: "cbt43-18805.appspot.com",
+        messagingSenderId: "275982715863",
+        appId: "1:275982715863:web:fa5c2fa09dc6e7631fd992",
+        measurementId: "G-3QL5CEXGNV"
+    };
+    
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    document.getElementById('submitPost').addEventListener('click', async () => {
+        const imageInput = document.getElementById('imageInput');
+        const commentInput = document.getElementById('commentInput');
+
+        if (imageInput.files[0] && commentInput.value) {
+            await uploadPost(imageInput.files[0], commentInput.value);
+            commentInput.value = '';
+            imageInput.value = '';
+            loadPosts(); // Recargar publicaciones
+        } else {
+            alert('Por favor, selecciona una imagen y escribe un comentario.');
+        }
+    });
+
+    async function uploadPost(imageFile, comment) {
+        const storageRef = storage.ref();
+        const imageRef = storageRef.child(`images/${imageFile.name}`);
+        
+        try {
+            const snapshot = await imageRef.put(imageFile);
+            const downloadURL = await snapshot.ref.getDownloadURL();
+
+            await db.collection('posts').add({
+                imageUrl: downloadURL,
+                comment: comment,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                comments: []
+            });
+
+            console.log('Publicación creada con éxito');
+        } catch (error) {
+            console.error('Error al subir la publicación:', error);
+        }
+    }
+
+    async function loadPosts() {
+        const postsContainer = document.getElementById('postsContainer');
+        postsContainer.innerHTML = ''; // Limpiar publicaciones anteriores
+        const postsSnapshot = await db.collection('posts').orderBy('createdAt', 'desc').get();
+        
+        postsSnapshot.forEach(doc => {
+            const post = doc.data();
+            const postElement = document.createElement('div');
+            postElement.innerHTML = `
+                <img src="${post.imageUrl}" alt="Post Image" style="width:200px;">
+                <p>${post.comment}</p>
+            `;
+            postsContainer.appendChild(postElement);
+        });
+    }
+
+    // Cargar publicaciones al inicio
+    loadPosts();
+</script>
 
 </body>
 </html>
